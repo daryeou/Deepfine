@@ -1,4 +1,4 @@
-package com.wonjo.deepfine.core
+package com.wonjo.deepfine.theme
 
 import org.junit.Test
 

@@ -25,4 +25,6 @@ dependencyResolutionManagement {
 rootProject.name = "Deepfine"
 include(":app")
 include(":core")
+include(":core:ui")
 include(":feature")
+include(":core:designsystem")
