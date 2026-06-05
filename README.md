@@ -14,6 +14,9 @@ Deepfine은 Jetpack Compose 기반의 Android 인증 예제 프로젝트입니�
 
 ## 모듈 구성
 
+의존성은 `app -> feature -> core` 방향으로 흐릅니다.
+비즈니스 규칙은 `core:domain`, 실제 저장소 구현은 `core:data`, 공통 UI 자산은 `core:ui`와 `core:designsystem`에 둡니다.
+
 ```mermaid
 graph TD
     app[":app"]
@@ -38,15 +41,18 @@ graph TD
 
 | 모듈 | 책임 |
 | --- | --- |
-| `:app` | 앱 진입점, Hilt 애플리케이션 설정, 시스템바 설정, 루트 테마와 인증 화면 연결 |
-| `:feature:auth` | 인증 Presentation 계층. 화면, 네비게이션, `AuthViewModel`, `AuthContract` 포함 |
-| `:core:domain` | 비즈니스 계약과 유스케이스. `AuthRepository`, `AuthUser`, 로그인/회원가입 유스케이스 포함 |
-| `:core:data` | 데이터 구현 계층. Room Database, DAO/Entity, `AuthRepositoryImpl`, Hilt data binding 포함 |
-| `:core:ui` | `BasicButton`, `BasicTextField`, Spacer 등 재사용 UI 컴포넌트 |
-| `:core:designsystem` | 앱 테마, 타이포그래피, 컬러 토큰 |
+| `:app` | 앱 진입점 |
+| `:feature:auth` | 인증 화면, MVI, 네비게이션 |
+| `:core:domain` | 모델, repository contract, use case |
+| `:core:data` | Room, repository 구현체, data DI |
+| `:core:ui` | 공통 Compose UI 컴포넌트 |
+| `:core:designsystem` | 테마, 타이포그래피, 컬러 토큰 |
 
-`feature:auth`는 런타임에서 Hilt가 인증 repository/database binding을 포함할 수 있도록 `core:data`에 의존합니다.
-다만 Presentation 코드 자체는 domain use case를 통해 동작하며 Room API에 직접 접근하지 않습니다.
+핵심 규칙은 단순합니다.
+
+- 화면은 `feature:auth`에 둡니다.
+- 비즈니스 판단은 `core:domain`의 use case로 위임합니다.
+- Room과 Hilt data binding은 `core:data`에만 둡니다.
 
 ## Clean Architecture
 
