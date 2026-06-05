@@ -1,18 +1,14 @@
-val applicationIdValue: String by rootProject.extra
 val compileSdkValue: Int by rootProject.extra
-val targetSdkValue: Int by rootProject.extra
 val minSdkValue: Int by rootProject.extra
 val compatibilityValue: JavaVersion by rootProject.extra
-val versionCodeValue: Int by rootProject.extra
-val versionNameValue: String by rootProject.extra
 
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = applicationIdValue
+    namespace = "com.wonjo.deepfine.ui"
     compileSdk {
         version = release(compileSdkValue) {
             minorApiLevel = 1
@@ -20,21 +16,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = applicationIdValue
         minSdk = minSdkValue
-        targetSdk = targetSdkValue
-        versionCode = versionCodeValue
-        versionName = versionNameValue
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            optimization {
-                enable = false
-            }
-        }
     }
     compileOptions {
         sourceCompatibility = compatibilityValue
@@ -43,14 +27,23 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
-    implementation(project(":core:ui"))
     implementation(project(":core:designsystem"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.androidx.compose)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.material)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 }
