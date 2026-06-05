@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.wonjo.deepfine.ui"
+    namespace = "com.wonjo.deepfine.core.ui"
     compileSdk {
         version = release(compileSdkValue) {
             minorApiLevel = 1
